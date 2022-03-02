@@ -1,3 +1,6 @@
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+
 public class Main {
     public static void main(String[] args) {
         //code from the lab that we want to print it from pluralize mothod
@@ -11,6 +14,7 @@ public class Main {
         System.out.println("I own " + turtleCount + " " + pluralize("turtle", turtleCount) + ".");
 
         flipNHeads(1);
+        clock();
     }
 
     public static String pluralize(String word, int number){
@@ -44,6 +48,24 @@ public class Main {
     }
 
     public static void clock() {
+        LocalDateTime now = LocalDateTime.now();
+        long lastSec = 0;
+        while(true){
+            String time = now.format(DateTimeFormatter.ofPattern("HH:mm:ss"));
+            
+            //From https://stackoverflow.com/questions/13121885/run-code-every-second-by-using-system-currenttimemillis.
+            long sec = System.currentTimeMillis() / 1000;
+            if (sec != lastSec) {
+                System.out.println(time);
+                lastSec = sec;
+            }
+        }
+//        LocalDateTime now = LocalDateTime.now();
+//        while (true) {
+//                String time = now.format(DateTimeFormatter.ofPattern("HH:mm:ss"));
+//                int pastSecond = now.getSecond() -1;
+//                    System.out.println(time);
+//        }
 
     }
 }
