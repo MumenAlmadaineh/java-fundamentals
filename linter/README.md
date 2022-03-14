@@ -2,4 +2,4 @@
 
 Content Name  | Content Link
 --------------| -------------
-Lab-03 | [JS Linter](https://github.com/MumenAlmadaineh/java-fundamentals/tree/main/basics)
+Lab-03 | [JS Linter](https://github.com/MumenAlmadaineh/java-fundamentals/pull/5)
