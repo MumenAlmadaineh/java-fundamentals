@@ -3,7 +3,7 @@
  */
 package basiclibrary;
 
-import java.util.Arrays;
+import java.util.*;
 
 public class Main {
     public static void main(String[] args) {
@@ -18,25 +18,39 @@ public class Main {
                 {55, 54, 60, 57, 59, 57, 61},
                 {65, 56, 55, 52, 55, 62, 57}};
 
+        List<String> votes = new ArrayList<>();
+        votes.add("Bush");
+        votes.add("Bush");
+        votes.add("Bush");
+        votes.add("Shrub");
+        votes.add("Hedge");
+        votes.add("Shrub");
+        votes.add("Bush");
+        votes.add("Hedge");
+        votes.add("Bush");
+
         System.out.println(Arrays.toString(roll(4)));
         System.out.println(containsDuplicates(userArrDup));
         System.out.println(calculatingAverages(userAveragesArr));
         System.out.println(Arrays.toString(averageOfArrays(weeklyMonthTemperatures)));
+        System.out.println(analyzingWeatherData(weeklyMonthTemperatures));
+        System.out.println(tally(votes));
 
     }
-    public static int[] roll(int times){
+
+    public static int[] roll(int times) {
         int[] rollArray = new int[times];
-        for (int i = 0; i < rollArray.length; i++){
-            rollArray[i] = (int) Math.floor(Math.random()*(6-1+1)+1);
+        for (int i = 0; i < rollArray.length; i++) {
+            rollArray[i] = (int) Math.floor(Math.random() * (6 - 1 + 1) + 1);
         }
         return rollArray;
     }
 
-    public static boolean containsDuplicates(int[] userArray){
-        for (int i = 0; i < userArray.length; i++){
-            for (int j = i + 1; j < userArray.length; j++){
+    public static boolean containsDuplicates(int[] userArray) {
+        for (int i = 0; i < userArray.length; i++) {
+            for (int j = i + 1; j < userArray.length; j++) {
 
-                if (userArray[i] == userArray[j]){
+                if (userArray[i] == userArray[j]) {
                     return true;
                 }
             }
@@ -44,32 +58,101 @@ public class Main {
         return false;
     }
 
-    public static int calculatingAverages (int[] averagesArr){
+    public static int calculatingAverages(int[] averagesArr) {
         int total = 0;
-        for (int i = 0; i < averagesArr.length; i++){
+        for (int i = 0; i < averagesArr.length; i++) {
             total += averagesArr[i];
         }
         int average = total / averagesArr.length;
         return average;
     }
 
-    public static int[] averageOfArrays (int[][] weeklyMonthTemperatures){
+    public static int[] averageOfArrays(int[][] weeklyMonthTemperatures) {
 
         int[] averageOfArrays = new int[weeklyMonthTemperatures.length];
-        for (int i = 0; i < weeklyMonthTemperatures.length; i++){
+        for (int i = 0; i < weeklyMonthTemperatures.length; i++) {
             int sum = 0;
-            for (int j = 0; j < weeklyMonthTemperatures[i].length; j++){
+            for (int j = 0; j < weeklyMonthTemperatures[i].length; j++) {
                 sum = sum + weeklyMonthTemperatures[i][j];
             }
             int average = sum / weeklyMonthTemperatures[i].length;
             averageOfArrays[i] = average;
             // compare element inside average of array and get the lowest average
-            if(averageOfArrays[i] < averageOfArrays[0]){
+            if (averageOfArrays[i] < averageOfArrays[0]) {
                 // assign the array has the lowest average to averageOfArrays
                 averageOfArrays = weeklyMonthTemperatures[i];
             }
-        } return averageOfArrays;
+        }
+        return averageOfArrays;
 
     }
 
+    public static ArrayList<String> analyzingWeatherData(int[][] weeklyMonthTemperatures) {
+        int highTemp = weeklyMonthTemperatures[0][0];
+        int lowTemp = weeklyMonthTemperatures[0][0];
+        int tempNeverSaw = weeklyMonthTemperatures[0][0];
+        String output = "";
+
+        Set <Integer> tempTrack = new HashSet<>();
+
+        for (int index = 0; index < weeklyMonthTemperatures.length; index++) {
+            for (int j = 0; j < weeklyMonthTemperatures[index].length; j++) {
+                if (highTemp < weeklyMonthTemperatures[index][j]) {
+                    highTemp = weeklyMonthTemperatures[index][j];
+                }
+                if (lowTemp > weeklyMonthTemperatures[index][j]) {
+                    lowTemp = weeklyMonthTemperatures[index][j];
+                }
+                tempTrack.add(weeklyMonthTemperatures[index][j]);
+            }
+        }
+        ArrayList<String> tempNeverSeen = new ArrayList<>();
+
+        for (int i = lowTemp; i <= highTemp; i++){
+            if (!tempTrack.contains(i)){
+                output = "\n" + "Low: " + lowTemp + "\n" + "High: " + highTemp;
+                tempNeverSeen.add("\n" + "Never saw temperature: " + i);
+            }
+        }
+        tempNeverSeen.add(output);
+        return tempNeverSeen;
+    }
+
+    public static String tally(List<String> votes){
+        String winningCandidate = "";
+
+        HashMap <String, Integer> votesSet = new HashMap<>();
+            /*
+         Here I need to iterate inside votesSet element and the element will the key of an integer this integer is the value
+         for the key, so in each iterate if the element (key) is duplicate we must increase the value (integer) because HashMap
+         can't contain same key for two or more value, so the duplicate key will have a new value (integer)
+         this will happen by increase the value (integer) by 1.
+             */
+
+        for (String element: votes){
+            /*
+         The integer (value) now is null, so we need an if statement that check if key equal null give the key initialize Integer(1)
+         and if the ket is not equal then increase the value of this key by 1, so after when the loop is finished check all elements
+         we will have the number of duplicate key (element).
+         */
+            if (votesSet.get (element) != null) {
+                votesSet.put(element, votesSet.get(element) + 1);
+            } else {
+                votesSet.put(element, 1);
+            }
+
+        }
+
+        // from https://www.codegrepper.com/code-examples/java/java+get+highest+value+in+a+hashmap
+        int maxValueInMap = (Collections.max(votesSet.values()));  // This will return max value in the Hashmap
+        for (Map.Entry<String, Integer> entry : votesSet.entrySet()) {  // Iterate through hashmap
+            if (entry.getValue() == maxValueInMap) {
+
+                // assign the value of the highest key to the string of winning candidate.
+                winningCandidate = entry.getKey();
+            }
+        }
+
+        return winningCandidate;
+    }
 }

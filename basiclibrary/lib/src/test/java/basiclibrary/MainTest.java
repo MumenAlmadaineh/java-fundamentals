@@ -4,6 +4,11 @@
 package basiclibrary;
 
 import org.junit.jupiter.api.Test;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Objects;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 class MainTest {
@@ -30,5 +35,39 @@ class MainTest {
         int[] arrayExpected = {55, 54, 60, 57, 59, 57, 61};
         int[] testResult = Main.averageOfArrays(arrayToTest);
         assertArrayEquals(arrayExpected, testResult);
+    }
+    @Test void testAnalyzingWeatherData(){
+        int[][] weeklyMonthTemperatures = {
+                {66, 64, 58, 65, 71, 57, 60},
+                {57, 65, 65, 70, 72, 65, 51},
+                {55, 54, 60, 57, 59, 57, 61},
+                {65, 56, 55, 52, 55, 62, 57}};
+        ArrayList<String> resultExpected =  new ArrayList<>();
+        resultExpected.add("\n" + "Never saw temperature: 53");
+        resultExpected.add("\n" + "Never saw temperature: 63");
+        resultExpected.add("\n" + "Never saw temperature: 67");
+        resultExpected.add("\n" + "Never saw temperature: 68");
+        resultExpected.add("\n" + "Never saw temperature: 69");
+        resultExpected.add("\n" + "Low: " + 51 + "\n" + "High: " + 72);
+
+        ArrayList testResult = Main.analyzingWeatherData(weeklyMonthTemperatures);
+        assertEquals(resultExpected, testResult);
+    }
+    @Test void testTally(){
+        List<String> votes = new ArrayList<>();
+        votes.add("Bush");
+        votes.add("Bush");
+        votes.add("Bush");
+        votes.add("Shrub");
+        votes.add("Hedge");
+        votes.add("Shrub");
+        votes.add("Bush");
+        votes.add("Hedge");
+        votes.add("Bush");
+
+        String resultExpected = "Bush";
+        String testResult = Main.tally(votes);
+
+        assertEquals(resultExpected, testResult);
     }
 }
