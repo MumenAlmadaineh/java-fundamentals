@@ -5,6 +5,7 @@ package inheritance;
 
 public class Main {
     public static void main(String[] args) {
-
+//        Restaurant restaurant = new Restaurant();
+//        Review review = new Review();
     }
 }
